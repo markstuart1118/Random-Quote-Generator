@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!-- font awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- <link rel="stylesheet" type="text/css" href="index.css"> -->
+<!-- <script type="text/javascript" src="index.js"></script> -->
+<script type="text/javascript">
+	$(document).ready(function(){
+
+// Declaration of variables
+	var quote;
+	var author;
+
+// create function
+	function getNewQuote(){
+
+// request api to retrive data
+		$.ajax({
+			url : "http://api.forismatic.com/api/1.0/",
+			jsonp : "jsonp",
+			dataType : "jsonp",
+			data : {
+				method : "getQuote",
+				format : "jsonp",
+				lang : "en"
+			},
+			success : function(response){
+				quote = response.quoteText;
+				author = response.quoteAuthor;
+				$("#quote").text(quote);
+				if(author){
+					$("#author").text("--" + author);
+				}
+				else{
+					$("#author").text("--unknown");
+				}
+			}
+		});
+	}
+
+// calling function when web page loads
+	getNewQuote();
+
+// calling function when user clicks on the next button to retrive the next quote
+	$("#next").on("click", function(event){
+		event.preventDefault();
+		getNewQuote();
+	});
+
+// calling fuction when user clicks on the share button to share the quote on the twitter
+	$("#share").on("click", function(event){
+		event.preventDefault();
+		window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(quote+" -- "+author));
+	});
+});
+</script>
+	<title>Random Quote Machine</title>
+<style type="text/css">
+		body{
+	/*background-image: url(background.jpg);*/
+	/*background-image: url(https://www.planwallpaper.com/static/images/518164-backgrounds.jpg);*/
+	background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOYSaRITc6B1B0N8SNMoOzxWKcwj2UqIZCIJr_wdL3sPTCt-MxAQ);
+	/*background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF1HQ_IvzO4FusD6Ai7se6duLHRo33sfGul6Mwo7MePbwr9jyUtQ);*/
+	background-size: cover;
+	background-repeat: no-repeat;
+	padding-top: 50px;
+}
+
+#quote{
+	font-family: garamond;
+	font-size: 3em;
+	font-style: italic;
+	font-weight: bold;
+	padding-top: 10%;
+}
+
+#author{
+	font-family: georgia;
+	font-size: 2em;
+	font-style: italic;
+	font-weight: bold;
+}
+
+.fa{
+	font-size: 20px;
+	/*color: #00aced;*/
+	color: white;
+}
+
+.btn:enabled{
+	/*box-shadow: 0 5px 10px 0;*/
+	border: 2px solid lightgray;
+	color: #00aced;
+}
+
+.btn:hover{
+	/*background-color: lightgray;*/
+	/*color: #00aced;*/
+	border-color: white;
+}
+
+
+</style>
+</head>
+<body>
+
+<!-- Main Container -->
+<div class="container">
+<!-- First Row -->
+	<div class="row">
+		<div class="col-xs-8 col-xs-offset-2 text-center">
+			<h1>Random Quote Machine</h1>
+			<h3>Here, you get some inspiring "Quotes"</h3>
+		</div>
+	</div>
+
+<!-- Second Row -->
+	<div class="row">
+		<div class="col-xs-8 col-xs-offset-2">
+				<div id="quote" class="text-center"></div>
+				<div id="author" class="text-right"></div>
+		</div>
+	</div>
+
+<!-- Third Row -->
+	<div class="row">
+	<br>
+		<div class="col-xs-8 col-xs-offset-2">
+			<!-- <button id="share" class="btn btn-default btn-lg"><i class="fa fa-twitter"></i> Share</button>
+			<button id="next" class="btn btn-default btn-lg pull-right">Next <i class="fa fa-chevron-circle-right"></i></button> -->
+			<button type="button" id="share" class="btn btn-primary btn-lg" style="color: white"><i class="fa fa-twitter"></i> Share</button>
+			<button type="button" id="next" class="btn btn-primary btn-lg pull-right" style="color: white">Next <i class="fa fa-chevron-circle-right"></i></button>
+		</div>
+	</div>
+<div>
+
+</body>
+</html>
